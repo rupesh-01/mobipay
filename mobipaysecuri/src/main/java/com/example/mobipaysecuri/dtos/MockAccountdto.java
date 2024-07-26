@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MockAccountdto {
-    private Long loanAccountNumber;
+    private String loanAccountNumber;
     private String dueDate;
     private Long totalDue;
 

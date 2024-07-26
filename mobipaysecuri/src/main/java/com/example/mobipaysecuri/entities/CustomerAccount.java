@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 public class CustomerAccount {
     @Id
-    Long accountId;
+    String accountId;
     String dueDate;
     Long emiAmount;
 }

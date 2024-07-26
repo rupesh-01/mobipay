@@ -28,7 +28,7 @@ public class MockLoanService implements LoanService{
     }
 
     @Override
-    public Account getAccountById(Long id) {
+    public Account getAccountById(String id) {
         ResponseEntity<MockAccountdto> mockAccountdto = restTemplate.getForEntity("https://demo0951179.mockable.io/loanaccount/"+id, MockAccountdto.class);
         if(mockAccountdto.getStatusCode()!=HttpStatusCode.valueOf(200)){
             logger.error("Not able to connect to the server", mockAccountdto);

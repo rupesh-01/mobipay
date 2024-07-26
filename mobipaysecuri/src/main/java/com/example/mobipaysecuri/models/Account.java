@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Account {
-    private Long accNo;
+    private String accNo;
     private String dueDate;
     private Long amtDue;
     private LoanDetails loanDetails;

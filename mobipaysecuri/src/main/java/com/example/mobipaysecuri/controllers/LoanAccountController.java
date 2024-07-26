@@ -18,7 +18,7 @@ public class LoanAccountController {
     }
     
     @GetMapping("/accounts/{id}")
-    public Account getAccountById(@PathVariable("id") String id){
+    public Account getAccountById(@PathVariable("id") Long id){
         return mockLoanService.getAccountById(id);
     }
 }

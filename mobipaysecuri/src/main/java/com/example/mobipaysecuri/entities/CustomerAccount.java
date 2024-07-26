@@ -1,6 +1,8 @@
 package com.example.mobipaysecuri.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +12,8 @@ import lombok.Setter;
 @Setter
 public class CustomerAccount {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     String accountId;
     String dueDate;
     Long emiAmount;

@@ -1,6 +1,5 @@
 package com.example.mobipaysecuri.models;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;

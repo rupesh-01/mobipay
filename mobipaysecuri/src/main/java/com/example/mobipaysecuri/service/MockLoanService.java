@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import com.example.mobipaysecuri.dtos.Accountdto;
 import com.example.mobipaysecuri.dtos.ResponseAccountdto;
 import com.example.mobipaysecuri.models.Account;
-import com.example.mobipaysecuri.models.Loan;
 import com.example.mobipaysecuri.repositories.AccountRepository;
 import com.example.mobipaysecuri.repositories.LoanRepository;
 
@@ -20,14 +19,12 @@ import com.example.mobipaysecuri.repositories.LoanRepository;
 public class MockLoanService implements LoanService{
     private RestTemplate restTemplate;
     private AccountRepository accountRepository;
-    private LoanRepository loanRepository;
     private final Logger logger; 
 
     public MockLoanService(RestTemplate restTemplate, AccountRepository accountRepository, LoanRepository loanRepository, Logger logger){
         this.restTemplate = restTemplate;
         this.accountRepository = accountRepository;
         this.logger = logger;
-        this.loanRepository = loanRepository;
     }
 
     @Override

@@ -2,11 +2,12 @@ package com.example.mobipaysecuri.service;
 
 import java.util.List;
 
-import com.example.mobipaysecuri.dtos.MockAccountdto;
+import com.example.mobipaysecuri.dtos.Accountdto;
+import com.example.mobipaysecuri.dtos.ResponseAccountdto;
 import com.example.mobipaysecuri.models.Account;
 
 public interface LoanService {
-    Account getAccountById(Long id);
+    ResponseAccountdto getAccountById(Long id);
     List<Account> getAllAccount();
-    void saveAccountToDB(MockAccountdto mockAccountdto);
+    Account createAccount(Accountdto mockAccountdto);
 }

@@ -2,53 +2,60 @@ package com.example.mobipaysecuri.service;
 
 import java.util.List;
 
+import java.util.Optional;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.mobipaysecuri.dao.LoanRepository;
-import com.example.mobipaysecuri.dtos.MockAccountdto;
-import com.example.mobipaysecuri.entities.CustomerAccount;
+import com.example.mobipaysecuri.dtos.Accountdto;
+import com.example.mobipaysecuri.dtos.ResponseAccountdto;
 import com.example.mobipaysecuri.models.Account;
+import com.example.mobipaysecuri.models.Loan;
+import com.example.mobipaysecuri.repositories.AccountRepository;
+import com.example.mobipaysecuri.repositories.LoanRepository;
 
 @Service
 public class MockLoanService implements LoanService{
     private RestTemplate restTemplate;
+    private AccountRepository accountRepository;
     private LoanRepository loanRepository;
     private final Logger logger; 
 
-    @Autowired
-    public MockLoanService(RestTemplate restTemplate,LoanRepository loanRepository, Logger logger){
+    public MockLoanService(RestTemplate restTemplate, AccountRepository accountRepository, LoanRepository loanRepository, Logger logger){
         this.restTemplate = restTemplate;
-        this.loanRepository = loanRepository;
+        this.accountRepository = accountRepository;
         this.logger = logger;
+        this.loanRepository = loanRepository;
     }
 
     @Override
-    public Account getAccountById(Long id) {
-        ResponseEntity<MockAccountdto> mockAccountdto = restTemplate.getForEntity("https://demo0951179.mockable.io/loanaccount/"+id, MockAccountdto.class);
-        if(mockAccountdto.getStatusCode()!=HttpStatusCode.valueOf(200)){
-            logger.error("Not able to connect to the server", mockAccountdto);
+    public ResponseAccountdto getAccountById(Long id) {
+        ResponseEntity<Accountdto> accountDto = restTemplate.getForEntity("http://demo0951179.mockable.io/loanaccount/"+id, Accountdto.class);
+        if(accountDto.getStatusCode()!=HttpStatusCode.valueOf(200)){
+            logger.error("Not able to connect to the server", accountDto);
         }
-        logger.info("Adding the loan Account to the database");
-        saveAccountToDB(mockAccountdto.getBody());
-        logger.info("Successfully saved the account details to the database");
-        return mockAccountdto.getBody().toAccount();
+        ResponseAccountdto responseAccountdto = new ResponseAccountdto();
+        responseAccountdto.setLoanAccountNumber(accountDto.getBody().getLoanAccountNumber());
+        responseAccountdto.setDueDate(accountDto.getBody().getEmiDetails().get(0).getDueDate());
+        responseAccountdto.setEmiAmount(accountDto.getBody().getEmiDetails().get(0).getEmiAmount());
+        Optional<Account> accountFromDb = accountRepository.findByLoanAccountNumber(accountDto.getBody().getLoanAccountNumber());
+        if(accountFromDb.isEmpty()){
+            accountRepository.save(accountDto.getBody().toAccount());
+        }
+        return responseAccountdto;
     }
 
     @Override
     public List<Account> getAllAccount() {
-        // TODO 
-        return null;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAllAccount'");
     }
 
     @Override
-    public void saveAccountToDB(MockAccountdto mockAccountdto) {
-        CustomerAccount customerAccount = mockAccountdto.convertToEntity();
-        loanRepository.save(customerAccount);
+    public Account createAccount(Accountdto accountdto) {
+        return null;
     }
-    
+
 }
